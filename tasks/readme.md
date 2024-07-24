@@ -8,6 +8,7 @@ We nidded :
 6. Deploy 
 
 ## Credits
-* https://github.com/tdewolff/minify/tree/master/cmd/minify 
+* https://github.com/tdewolff/minify/tree/master/cmd/minify
+* https://github.com/tdewolff/minify/releases
 * https://taskfile.dev/usage/
 * https://esbuild.github.io/
