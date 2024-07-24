@@ -5,4 +5,4 @@ We nidded :
 3. Minify js
 4. Minify css
 5. Minify html
-6. Develop 
+6. Deploy 
