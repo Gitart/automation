@@ -1,0 +1,129 @@
+version: '3'
+
+vars:
+  binary_name:     kpinfo.exe
+  binary_name_unx: e:/0/kpinfo
+  flags_name:      -w 
+  flags_name_s:    -s
+
+interval: 1500ms  
+
+dotenv: ['.env', '{{.ENV}}/.env.', '{{.HOME}}/.env']
+
+env:
+  ENV: testing
+
+tasks:
+  desc: "Echo hello"
+  hello:
+    cmds:
+      - echo 'Hello World from Task!'
+    silent: true
+    
+  run:
+    desc: "Run sumple echo"
+    cmds:
+      - echo 'Hello Run World from Task!'
+    silent: false
+    
+  bld:
+    desc: "Build for windows"
+    cmds:
+      - echo 'Build for windows'
+      - go build -pgo=auto -ldflags {{.flags_name}} -ldflags {{.flags_name_s}} -o {{.binary_name}} 
+    
+  unx:
+    desc: "Build app for Unix"
+    cmds:
+      - echo 'Build for unix'
+      - go build -ldflags {{.flags_name}} -ldflags {{.flags_name_s}} -o {{.binary_name_unx}} 
+    silent: true
+  
+  tidy:
+    desc: "Run tidy for Go"
+    cmds:
+      - echo 'Tidy'
+      - go mod tidy
+
+  jsf:
+    desc: "Minification Js"
+    cmds:
+      - echo 'jsfiles'
+      - esbuild --minify /js/*.js --outdir=jsout --define:RELEASE=true
+  
+  html:
+    desc: "Convert to html and js"
+    cmds:    
+      - echo 'Html pack'
+      - minify -r /public/*.html -o publicout/ 
+      - minify -r /js/*.js -o jsout/ 
+      - minify -r /css/*.css -o cssout/ 
+      - echo 'Ready ...'    
+  
+  jss:
+    watch: true
+    sources:
+      - '/js/**/*.js'
+    cmds:
+      - echo 'Convert JS'
+      - minify -r /js/*.js -o jsout/ 
+
+  csss2:
+    desc: "Install necessary dependencies"
+    cmds:
+      - minify -r -w -o out/ /css/*.css 
+    
+  cs:
+    desc: "Install necessary dependencies"
+    watch: true
+    sources:
+      - '/css/**/*.css'
+    cmds:
+      - minify -r -w -o out/ /css/*.css 
+
+  example:
+    cmds: 
+      - task: not-dangerous
+      - task: other
+
+  not-dangerous:
+    cmds:
+      - echo 'Not dangerous'
+    silent: true  
+  
+  other:
+    cmds:
+      - echo 'Another remark task'
+    prompt: This is a dangerous command... Do you want to continue?
+    silent: true
+  
+  # Запуск геенрации программы
+  build:
+    desc: Builds the Go application
+    watch: true
+    dir: '{{.USER_WORKING_DIR}}'
+    sources:
+      - '**/*.go'
+    cmds:
+      - go build -o ma.exe 
+      # - e:/WORK/TASK/ma.exe
+      - ./ma.exe
+
+    echo: 'End build process...' 
+
+  test:
+    desc: Run all the go tests.
+    cmds:
+      - go test -race ./...    
+
+  curr:
+    desc: Run variable
+    echo: '{{.USER_WORKING_DIR}}'
+
+  envr:
+    desc: Run enviroument from file .env
+    cmds:
+      - echo "Using $KEYNAME and endpoint $ENDPOINT"
+      - echo {{.HOME}} 
+      - echo Env {{.ENV}}
+      - echo OS {{OS}}
