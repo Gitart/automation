@@ -6,3 +6,8 @@ We nidded :
 4. Minify css
 5. Minify html
 6. Deploy 
+
+## Credits
+* https://github.com/tdewolff/minify/tree/master/cmd/minify 
+* https://taskfile.dev/usage/
+* https://esbuild.github.io/
