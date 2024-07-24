@@ -1,4 +1,4 @@
-# Tasks
+# ⏱ Tasks
 We nidded :
 1. Compile programm
 2. Run testing 
